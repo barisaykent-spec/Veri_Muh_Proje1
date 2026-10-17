@@ -12,7 +12,7 @@ Beş kişi önce kendi başına çalışıp sonra tek defterde birleşecek. Sonu
 | 6 | Tohum | `SEED = 42` | Tekrarlanabilirlik |
 | 7 | Modele asla girmeyecek sütunlar | `price`, `price_quote_*` (5 sütun), `estimated_revenue_l365d` | Hedefi doğrudan ya da dolaylı veriyor (sızıntı) |
 | 8 | Kimlik / URL sütunları | `id`, `listing_url`, `scrape_id`, `host_id`*, `host_url`, `host_profile_id`, `host_profile_url`, `picture_url`, `host_picture_url` | Öznitelik değil (*`host_id` yalnızca bölme grubu) |
-| 9 | %100 boş sütunlar | 15 sütun (host_since, host_response_*, bathrooms, instant_bookable, …) | Bilgi yok; künyede listelenir |
+| 9 | %100 boş sütunlar | 14 sütun (host_since, host_response_*, bathrooms, instant_bookable, …) | Bilgi yok; künyede listelenir |
 
 ## Bireysel çalışma düzeni
 - Her üye kendi kopyasını `calisma/<ad>/BIL545_Proje1.ipynb` yolunda tutar ve **kendi hesabından** commit'ler (katkı puanının %25'i commit geçmişi).
