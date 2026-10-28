@@ -10,7 +10,7 @@ yorum_grubu = pd.cut(df13["number_of_reviews"], [-1, 0, 5, 30, 10_000],
 gece_grubu  = np.where(df13["minimum_nights"] >= 100, "100+ gece", "100'den az")
 
 def eksik_orani_gruba_gore(sutun, grup, grup_adi):
-    tablo = (df13[sutun].isna().groupby(grup).mean() * 100).round(1)
+    tablo = (df13[sutun].isna().groupby(grup, observed=True).mean() * 100).round(1)
     print(f"{sutun:<22} eksik % | {grup_adi}: {tablo.to_dict()}")
 
 print("--- Blok 1: puan sütunları ---")
