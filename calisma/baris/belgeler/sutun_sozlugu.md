@@ -50,7 +50,7 @@
 | 42 | `bathrooms` | Banyo sayısı (sayısal) | float64 | 100.0 | 0 | Silindi | Adım 2 (A: %100 boş). Yerine bathrooms_text var |
 | 43 | `bathrooms_text` | Banyo bilgisi metin olarak ("1.5 shared baths") | metin | 0.4 | 59 | Öznitelik adayı | Metin → sayı (banyo_sayisi) + tip (özel/paylaşımlı) dönüşümü bekliyor |
 | 44 | `bedrooms` | Yatak odası sayısı | float64 | 0.1 | 30 | Öznitelik adayı | 1.3-a: 0 değeri geçerli (stüdyo) olarak bırakıldı |
-| 45 | `beds` | Yatak sayısı | float64 | 1.5 | 35 | Öznitelik adayı | %0,9 eksik; hatta medyanla dolduruluyor |
+| 45 | `beds` | Yatak sayısı | float64 | 1.5 | 35 | Öznitelik adayı | Model verisinde %0,9 eksik; hatta medyanla dolduruluyor |
 | 46 | `amenities` | Olanaklar listesi (["Wifi", "Klima" …], çok değerli) | metin | 0.0 | 23115 | Silindi | Adım 2 (D: liste). Weka'yı çökertiyordu. Olanak sayısı / sık olanaklar türetilebilir (bekliyor); Bölüm 3 birliktelik için aday |
 | 47 | `price` | Gecelik teklif fiyatı ("$" işaretli ama TL) | metin | 9.8 | 13011 | HEDEF | Metin → sayı. 3 dilime çevrildi (fiyat_dilimi). Fiyatı boş satırlar dışlandı. Öznitelik olarak ASLA girmez |
 | 48 | `price_quote_checkin_date` | Fiyat teklifinin giriş tarihi | metin | 6.2 | 248 | Silindi | Adım 3 (SIZINTI: teklifin parçası). Weka: W2 |
