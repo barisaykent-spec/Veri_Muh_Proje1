@@ -54,6 +54,13 @@ Kübra'nın ortak hattı (`on_isleme(kodlama="nadir", add_indicator=True)`) + `C
 - RF > LR 25/25 bölmede (+0,035). HistGB − RF = +0,005 (std 0,007, 19/25) → kazanan 2.4'teki testle belirlenecek.
 - Yorum hücresi henüz yazılmadı: Barış yazacak (eğitim–test farkının ağaç vs. RF'de farklı okunması; makro F1 gerekçesi).
 
+## 2.5 hedef tartışması (2026-11-01, `calisma/baris/kodlar/b2_5_hedef_tartismasi.py`)
+Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü olabilir mi?" Ortak hat + LR, `CV_GRUP[:5]`.
+- Hata yapısı: doğru %62,9 · komşu sınıf hatası %31,9 · uç hata (ucuz↔pahalı) %5,2.
+- Sınıra uzaklığa göre hata: <%5 → %55,8 · >%40 → %17,4 (hatalar sınırların etrafında yığılıyor).
+- Sınır duyarlılığı: makro F1 0,53 (4 sınıf) – 0,63 (ekip) – 0,77 (2 sınıf); Spearman (beklenen sınıf ~ fiyat) her sette ≈0,71; sınırsız log(fiyat) Ridge regresyonu da 0,711 (R² 0,49).
+- Sonuç: F1 sınıra bağlı, öğrenilen sinyal değil → raporda F1 tek başına verilmemeli; şans düzeyi + sıralama gücü + bu tablo ile verilmeli. Yorum hücresini Barış yazacak.
+
 ## Bölüm 2 planı (sıradaki iş)
 - Makale: Dietterich (1998), Neural Computation 10(7) 1895–1923. Özet verildi: 5 test; öneri 5×2 ÇD t-testi (10 kez çalıştırılabiliyorsa) ya da McNemar (bir kez). Türkçesi yok.
 - 6. hafta (karar ağacı, NB, k-NN, ölçütler, bölme) Barış'a çalıştırılıyor; 7. hafta: RF, GB, iç içe ÇD, istatistiksel test.
