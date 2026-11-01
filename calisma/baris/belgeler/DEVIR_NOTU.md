@@ -1,6 +1,6 @@
 # Devir notu — BIL545 Proje 1 (Barış ile çalışma oturumu özeti)
 
-Son güncelleme: 2026-11-01. Yeni bir sohbet açılınca Claude'un önce bu dosyayı okuması yeterli.
+Son güncelleme: 2026-11-01 (2.1 eklendi). Yeni bir sohbet açılınca Claude'un önce bu dosyayı okuması yeterli.
 
 ## Ders ve proje
 - BIL545 Veri Madenciliğinde İleri Konular (Dr. Selma Güzel, Üsküdar Ü.), 2026–27 Güz. 5 kişilik grup → temel kapsam + Ek paket 1 + Ek paket 2.
@@ -15,7 +15,7 @@ Son güncelleme: 2026-11-01. Yeni bir sohbet açılınca Claude'un önce bu dosy
 
 ## Depolar ve dosyalar
 - Grup deposu: github.com/barisaykent-spec/Veri_Muh_Proje1 (public). Barış'ın denemeleri `calisma/baris/`.
-  - `calisma/baris/kodlar/` : adim2_3 (sütun rolleri), b1_3a–d (eksiklik), b1_4 (kodlama), b1_5 (sızıntı), b1_6 (baseline), w1 (Weka CSV)
+  - `calisma/baris/kodlar/` : adim2_3 (sütun rolleri), b1_3a–d (eksiklik), b1_4 (kodlama), b1_5 (sızıntı), b1_6 (baseline), w1 (Weka CSV), b2_1 (model karşılaştırması)
   - `calisma/baris/belgeler/sutun_sozlugu.md|csv` : 90 sütunun açıklaması, durumu, aksiyonu
   - `ORTAK_KARARLAR.md` : ilk kararlar (kapsam kısmı artık GEÇERSİZ, aşağıya bak)
 - Kübra'nın defteri (Bölüm 1, ekip ana hattı): github.com/kubragiritkopuz/MachineLearningCourseDokuments → `BIL545_Proje1_20261007.ipynb`
@@ -29,7 +29,7 @@ Son güncelleme: 2026-11-01. Yeni bir sohbet açılınca Claude'un önce bu dosy
 | Bölme | `StratifiedGroupKFold(groups=host_id)`, 5 kat × 5 tekrar (tohum 42…46) = `CV_GRUP` |
 | Ana ölçüt | **Makro F1** (ikincil: dengeli doğruluk) |
 | Ön işleme | Hepsi Pipeline içinde (`on_isleme`); satır içi dönüşümler `model_tablosu`'nda |
-| Önerilen (onay bekliyor) | müsaitlik/doluluk/son dönem yorum sütunları çıkarılsın (ters nedensellik), `license` → 4 durum, `reviews_per_month` yorumsuzsa 0 |
+| Önerilen (resmî onay bekliyor) | müsaitlik/doluluk/son dönem yorum sütunları çıkarılsın (ters nedensellik), `license` → 4 durum, `reviews_per_month` yorumsuzsa 0. **Not (2026-11-01):** üçü de Kübra'nın `model_tablosu` / `kodlanmis_eksikleri_duzelt` fonksiyonlarında zaten uygulanmış; 2.1 bu hâliyle koşturuldu. Ekipte yalnız kararın kapatılması kaldı |
 
 ## Önemli bulgular (Bölüm 1)
 - Sızıntı sütunları: `price_quote_*`, `estimated_revenue_l365d` (gelir ÷ doluluk = fiyat, %99,9).
@@ -38,6 +38,21 @@ Son güncelleme: 2026-11-01. Yeni bir sohbet açılınca Claude'un önce bu dosy
 - 1.6: LR makro F1 ≈ 0,63 (tüm veri) / 0,61 (kısa dönem); Dummy 0,16 / 0,33.
 - Kübra'nın defterinde yorumlardaki sayılar çıktıyla uyuşmuyor (1.3, 1.5, 1.6) → düzeltilmeli.
 - Weka: ham CSV açılmıyor (metin/URL/kesme işareti); `bufferSize=30000` gerekli. W1–W4 adımları kısa dönem kapsamına göre yapıldı → tüm veri kapsamına göre yenilenecek.
+
+## 2.1 sonuçları (2026-11-01, sklearn 1.6.1, `calisma/baris/kodlar/b2_1_model_karsilastirma.py`)
+Kübra'nın ortak hattı (`on_isleme(kodlama="nadir", add_indicator=True)`) + `CV_GRUP` 25 bölme. Hiperparametreler sabit (ayar 2.3'te).
+
+| Model | Makro F1 | Eğitim − test |
+|---|---|---|
+| Dummy en sık / oranlarla | 0,163 / 0,334 | ≈0 |
+| Lojistik regresyon | 0,630 ± 0,013 | 0,02 |
+| Karar ağacı sınırsız / yaprak ≥ 20 | 0,565 / 0,599 | 0,44 / 0,15 |
+| k-NN k=15 ölçekli | 0,602 ± 0,013 | 0,12 |
+| Rastgele orman 300 ağaç | 0,665 ± 0,014 | 0,29 |
+| HistGradientBoosting | 0,670 ± 0,014 | 0,19 |
+
+- RF > LR 25/25 bölmede (+0,035). HistGB − RF = +0,005 (std 0,007, 19/25) → kazanan 2.4'teki testle belirlenecek.
+- Yorum hücresi henüz yazılmadı: Barış yazacak (eğitim–test farkının ağaç vs. RF'de farklı okunması; makro F1 gerekçesi).
 
 ## Bölüm 2 planı (sıradaki iş)
 - Makale: Dietterich (1998), Neural Computation 10(7) 1895–1923. Özet verildi: 5 test; öneri 5×2 ÇD t-testi (10 kez çalıştırılabiliyorsa) ya da McNemar (bir kez). Türkçesi yok.
