@@ -66,6 +66,18 @@ Ortak hat (`on_isleme(kodlama="nadir", add_indicator=True)`) + `CV_GRUP` 25 böl
 - Sol çocuk: `yatak_odasi` ≤ 1,5 (25/25); 2+ yatak odalı kısa dönem → %77 pahalı. Sağ çocuk kararsız: kapasite 14, oda_tipi Entire 8, Private room 3.
 - Bütün veride ağaç: derinlik 22, 857 yaprak.
 
+## 2.3 sonuçları (2026-11-02, sklearn 1.9.1; defterde 2.3 hücresi + `calisma/baris/kodlar/b2_3_optimist_yanlilik.py`)
+Karar ağacı, 24 aday (max_depth 4–None × min_samples_leaf 1–50). İç ÇD de gruplu (`StratifiedGroupKFold`). Dış = `CV_GRUP[:5]`. Süre ≈ 4 dk.
+
+| Kaynak | Rapor edilen | Gerçekçi | Şişme |
+|---|---|---|---|
+| best_score_ (gruplu iç ÇD) vs iç içe ÇD | 0,613 | 0,612 ± 0,015 | +0,001 |
+| best_score_ satıra göre ÇD vs seçilen ayarın gruplu skoru | 0,666 | 0,598 | +0,067 |
+| RF OOB (100 ağaç) vs gruplu test | 0,743 | 0,660 | +0,083 |
+
+- Doğru bölmeyle ayar seçim yanlılığı çok küçük (24 aday birbirine yakın, 24 bin ilan). 1 adayda iç − dış = −0,003 (iç ÇD daha az veriyle eğitiyor → kötümser), 24 adayda +0,002 → net seçim etkisi ≈ +0,004.
+- Asıl şişme yanlış bölmeden: satıra göre ayar derin ağacı seçiyor (depth 12, leaf 1), gruplu ayara göre −0,016 (22/25 bölmede kötü). Dış katlarda seçilen ayar da değişiyor (depth 6/8/12; leaf 5/50) → ayar kararsız.
+
 ## 2.5 hedef tartışması (2026-11-01, `calisma/baris/kodlar/b2_5_hedef_tartismasi.py`)
 Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü olabilir mi?" Ortak hat + LR, `CV_GRUP[:5]`.
 - Hata yapısı: doğru %62,9 · komşu sınıf hatası %31,9 · uç hata (ucuz↔pahalı) %5,2.
