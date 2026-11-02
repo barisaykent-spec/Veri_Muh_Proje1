@@ -59,6 +59,13 @@ Ortak hat (`on_isleme(kodlama="nadir", add_indicator=True)`) + `CV_GRUP` 25 böl
 - Ek deney (1.6.1, eski tablo, tek bölme): iki sınırsız ağaç test ilanlarının %44'ünde farklı dilim söylüyor, iki RF %5'inde. RF eğitim F1 0,957 / OOB 0,750 / gruplu test 0,661 → OOB satıra göre olduğu için bu veride şişik (1.5 bölme sızıntısıyla aynı); 2.3'te kullanılabilir.
 - Yorum hücresi henüz yazılmadı: Barış yazacak (eğitim–test farkının ağaç vs. RF'de farklı okunması; makro F1 gerekçesi).
 
+## 2.2 sonuçları (2026-11-02, sklearn 1.9.1; defterde 2.2 hücresi + `calisma/baris/kodlar/b2_2_agac_yorumu.py`)
+Ölçeksiz hat (`agac_on_isleme`, aynı doldurma/kodlama; skor 0,604 = 2.1) + `min_samples_leaf=20`. Yorum ağacı bütün veride (yalnız yapı için).
+- Kök: `log_min_gece` ≤ 20,5 gece (25/25 eğitim katında). Sağ dal (%32,8) neredeyse tamamen 100 gecelik teklifler; medyan fiyat 2.096 TL'ye karşı 4.483 TL → ağacın ilk sorusu evin niteliği değil, teklifin ölçülme biçimi (vekil hedef / 7464 sayılı Kanun etkisi).
+- Kök eşiği katlar arasında 14,5–99,5 gece, ama 15–99 aralığında yalnız 298 ilan (%1,2) → ayrım pratikte aynı.
+- Sol çocuk: `yatak_odasi` ≤ 1,5 (25/25); 2+ yatak odalı kısa dönem → %77 pahalı. Sağ çocuk kararsız: kapasite 14, oda_tipi Entire 8, Private room 3.
+- Bütün veride ağaç: derinlik 22, 857 yaprak.
+
 ## 2.5 hedef tartışması (2026-11-01, `calisma/baris/kodlar/b2_5_hedef_tartismasi.py`)
 Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü olabilir mi?" Ortak hat + LR, `CV_GRUP[:5]`.
 - Hata yapısı: doğru %62,9 · komşu sınıf hatası %31,9 · uç hata (ucuz↔pahalı) %5,2.
@@ -71,4 +78,4 @@ Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü ola
 - 6. hafta (karar ağacı, NB, k-NN, ölçütler, bölme) Barış'a çalıştırılıyor; 7. hafta: RF, GB, iç içe ÇD, istatistiksel test.
 - 2.1 iskeleti Kübra'nın fonksiyonları üzerine kurulacak: Dummy, karar ağacı, k-NN (ölçekli), RF, gradyan artırma; `CV_GRUP`; ort ± std + kutu grafiği.
 - 2.4'te 5×2 ÇD **gruplu** yapılmalı (`StratifiedGroupKFold(n_splits=2)` × 5); McNemar için gruplu holdout.
-- Yorumlar ancak kararlar kesinleşince yazılacak.
+- **Yorum hücreleri en sona bırakıldı (Barış kararı, 2026-11-02).** Önce 2.1–2.5 kodları, sonra bütün yorumlar.
