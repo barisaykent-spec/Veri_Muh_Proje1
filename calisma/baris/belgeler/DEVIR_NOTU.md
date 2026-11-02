@@ -78,6 +78,18 @@ Karar ağacı, 24 aday (max_depth 4–None × min_samples_leaf 1–50). İç ÇD
 - Doğru bölmeyle ayar seçim yanlılığı çok küçük (24 aday birbirine yakın, 24 bin ilan). 1 adayda iç − dış = −0,003 (iç ÇD daha az veriyle eğitiyor → kötümser), 24 adayda +0,002 → net seçim etkisi ≈ +0,004.
 - Asıl şişme yanlış bölmeden: satıra göre ayar derin ağacı seçiyor (depth 12, leaf 1), gruplu ayara göre −0,016 (22/25 bölmede kötü). Dış katlarda seçilen ayar da değişiyor (depth 6/8/12; leaf 5/50) → ayar kararsız.
 
+## 2.4 sonuçları (2026-11-02, sklearn 1.9.1; defterde 2.4 + 2.4 devam hücreleri, `kodlar/b2_4_istatistiksel_test.py`, `b2_4b_duyarlilik.py`)
+Gruplu 5×2 ÇD (`StratifiedGroupKFold(2)` × 5, tohum 42–46), McNemar için gruplu ayırma (2/3–1/3, tohum 42). Süre ≈ 5 dk.
+
+| Çift (A − B) | Fark | Saf t (YANLIŞ) | Düzeltilmiş t | 5×2 t | 5×2 F | Ev sahibi bootstrap | McNemar | Sonuç |
+|---|---|---|---|---|---|---|---|---|
+| HistGB − RF | +0,005 | 0,004 | 0,25 | 0,038 (Holm 0,076) | 0,14 | 0,10 | 0,014 | **anlamlı değil** |
+| RF − LR | +0,035 | <0,001 | <0,001 | <0,001 | <0,001 | <0,001 | <0,001 | anlamlı (pozitif kontrol) |
+| k-NN − ağaç≥20 | +0,001 | 0,64 | 0,86 | 0,11 | 0,31 | 0,16 | 0,06 | anlamlı değil (negatif kontrol) |
+
+- HistGB − RF: 5×2 t'nin payı keyfi seçilen ilk fark; 10 seçimden yalnız 1'inde p < 0,05 (p 0,038–0,76). Saf t ve ilan bazlı McNemar ev sahibi bağımlılığını yok saydığı için "anlamlı" diyor; düzeltilmiş/kümelenmiş testler demiyor.
+- Duyarlılık hücresi (2.4 devam) ilk sonuçlar görüldükten sonra eklendi → raporda post hoc olarak belirtilmeli.
+
 ## 2.5 hedef tartışması (2026-11-01, `calisma/baris/kodlar/b2_5_hedef_tartismasi.py`)
 Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü olabilir mi?" Ortak hat + LR, `CV_GRUP[:5]`.
 - Hata yapısı: doğru %62,9 · komşu sınıf hatası %31,9 · uç hata (ucuz↔pahalı) %5,2.
