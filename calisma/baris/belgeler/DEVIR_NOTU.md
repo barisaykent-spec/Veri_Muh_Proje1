@@ -1,6 +1,6 @@
 # Devir notu — BIL545 Proje 1 (Barış ile çalışma oturumu özeti)
 
-Son güncelleme: 2026-11-01 (2.1 eklendi). Yeni bir sohbet açılınca Claude'un önce bu dosyayı okuması yeterli.
+Son güncelleme: 2026-11-02 (Bölüm 1 V2'den kopyalandı, sürüm 1.9.1'e geçildi, 2.1 deftere eklendi). Yeni bir sohbet açılınca Claude'un önce bu dosyayı okuması yeterli.
 
 ## Ders ve proje
 - BIL545 Veri Madenciliğinde İleri Konular (Dr. Selma Güzel, Üsküdar Ü.), 2026–27 Güz. 5 kişilik grup → temel kapsam + Ek paket 1 + Ek paket 2.
@@ -11,15 +11,19 @@ Son güncelleme: 2026-11-01 (2.1 eklendi). Yeni bir sohbet açılınca Claude'un
 ## Barış hakkında / çalışma biçimi
 - Finans altyapılı analist; tablo sever; SQL/select alışkanlığı var. Türkçe, isimle hitap ("Barış").
 - **Öğrenmek istiyor**: adım adım, önce kavram, sonra kod; Python + Weka paralel. Kodu verirken satır satır açıklama + yorum taslağı istiyor.
-- Colab ortamı: Python 3.13, pandas 2.2.3, **scikit-learn 1.6.1** (sürüm farkı sonuçları değiştiriyor; test ederken bu sürümü kullan).
+- Ortam (2026-11-02 kararı): Python 3.13, **pandas 3.0.5, scikit-learn 1.9.1** (Kübra'nın V2 defteriyle aynı). Eski karar 1.6.1'di.
+  - Sürüm farkı `CV_GRUP` bölmelerini değiştiriyor: 1.9.1'de her test katının sınıf oranı birebir eşit (std 0,000), 1.6.1'de ±0,02. Skorlar ~0,002–0,006 oynuyor, sıralama değişmiyor.
+  - 1.3 kontrol hücresindeki "eğitim katı eşikleriyle hiçbir test etiketi değişmiyor" yalnız 1.9.1'de doğru (1.6.1'de ort. %1, en fazla %4 değişiyor). Varsayım defterinde sürüm belirtilmeli.
 
 ## Depolar ve dosyalar
 - Grup deposu: github.com/barisaykent-spec/Veri_Muh_Proje1 (public). Barış'ın denemeleri `calisma/baris/`.
   - `calisma/baris/kodlar/` : adim2_3 (sütun rolleri), b1_3a–d (eksiklik), b1_4 (kodlama), b1_5 (sızıntı), b1_6 (baseline), w1 (Weka CSV), b2_1 (model karşılaştırması)
   - `calisma/baris/belgeler/sutun_sozlugu.md|csv` : 90 sütunun açıklaması, durumu, aksiyonu
   - `ORTAK_KARARLAR.md` : ilk kararlar (kapsam kısmı artık GEÇERSİZ, aşağıya bak)
-- Kübra'nın defteri (Bölüm 1, ekip ana hattı): github.com/kubragiritkopuz/MachineLearningCourseDokuments → `BIL545_Proje1_20261007.ipynb`
-  - İçinde hazır fonksiyonlar: `model_tablosu(d)`, `on_isleme(kodlama, add_indicator, ...)`, `lojistik()`, `grup_cv()`, `CV_GRUP`, `CV_SATIR`, `degerlendir()`, `tablo()`.
+- **Barış'ın defteri `calisma/baris/BIL545_Proje1.ipynb`**: Hazırlık + Bölüm 1, Kübra'nın V2 defterinden birebir kopyalandı (çıktılarıyla, 2026-11-02). Bölüm 2 burada yazılıyor. Önceki Bölüm 1 sürümü git geçmişinde (485905e).
+- Kübra'nın defteri (Bölüm 1, ekip ana hattı): github.com/kubragiritkopuz/MachineLearningCourseDokuments → **`BIL545_Proje1_AirbnbIstanbulV2.ipynb`** (eski: `BIL545_Proje1_20261007.ipynb`)
+  - V2 değişiklikleri: `model_tablosu(d, senaryo)`; `KAPSAM="hepsi"`, `SENARYO="mevcut_ilan"`; 24 öznitelik (uzun_donem, puan_deger, kaynak çıkarıldı); veri tablosu `hedefli` yerine `veri`; `add_indicator=True` varsayılan; `lr_hatti()` eklendi.
+  - İçinde hazır fonksiyonlar: `model_tablosu(d, senaryo)`, `on_isleme(kodlama, add_indicator, ...)`, `lojistik()`, `grup_cv()`, `CV_GRUP`, `CV_SATIR`, `degerlendir()`, `tablo()`.
 
 ## Ekip kararları (güncel)
 | Konu | Karar |
@@ -39,19 +43,20 @@ Son güncelleme: 2026-11-01 (2.1 eklendi). Yeni bir sohbet açılınca Claude'un
 - Kübra'nın defterinde yorumlardaki sayılar çıktıyla uyuşmuyor (1.3, 1.5, 1.6) → düzeltilmeli.
 - Weka: ham CSV açılmıyor (metin/URL/kesme işareti); `bufferSize=30000` gerekli. W1–W4 adımları kısa dönem kapsamına göre yapıldı → tüm veri kapsamına göre yenilenecek.
 
-## 2.1 sonuçları (2026-11-01, sklearn 1.6.1, `calisma/baris/kodlar/b2_1_model_karsilastirma.py`)
-Kübra'nın ortak hattı (`on_isleme(kodlama="nadir", add_indicator=True)`) + `CV_GRUP` 25 bölme. Hiperparametreler sabit (ayar 2.3'te).
+## 2.1 sonuçları (2026-11-02, V2 model tablosu, sklearn 1.9.1; defterde 2.1 hücresi + `calisma/baris/kodlar/b2_1_model_karsilastirma.py`)
+Ortak hat (`on_isleme(kodlama="nadir", add_indicator=True)`) + `CV_GRUP` 25 bölme. Hiperparametreler sabit (ayar 2.3'te). Parantez içi: 1.6.1 sonucu.
 
 | Model | Makro F1 | Eğitim − test |
 |---|---|---|
-| Dummy en sık / oranlarla | 0,163 / 0,334 | ≈0 |
-| Lojistik regresyon | 0,630 ± 0,013 | 0,02 |
-| Karar ağacı sınırsız / yaprak ≥ 20 | 0,565 / 0,599 | 0,44 / 0,15 |
-| k-NN k=15 ölçekli | 0,602 ± 0,013 | 0,12 |
-| Rastgele orman 300 ağaç | 0,665 ± 0,014 | 0,29 |
-| HistGradientBoosting | 0,670 ± 0,014 | 0,19 |
+| Dummy en sık / oranlarla | 0,169 / 0,335 (0,163 / 0,334) | ≈0 |
+| Lojistik regresyon | 0,630 ± 0,011 (0,628) | 0,02 |
+| Karar ağacı sınırsız / yaprak ≥ 20 | 0,567 / 0,604 (0,564 / 0,599) | 0,43 / 0,14 |
+| k-NN k=15 ölçekli | 0,605 ± 0,010 (0,602) | 0,12 |
+| Rastgele orman 300 ağaç | 0,665 ± 0,016 (0,663) | 0,29 |
+| HistGradientBoosting | 0,670 ± 0,016 (0,667) | 0,19 |
 
-- RF > LR 25/25 bölmede (+0,035). HistGB − RF = +0,005 (std 0,007, 19/25) → kazanan 2.4'teki testle belirlenecek.
+- RF > LR 25/25 bölmede (+0,035). HistGB − RF = +0,005 ± 0,007 (18/25) → kazanan 2.4'teki testle belirlenecek. k-NN ≈ ağaç ≥ 20 (+0,001, 15/25).
+- Ek deney (1.6.1, eski tablo, tek bölme): iki sınırsız ağaç test ilanlarının %44'ünde farklı dilim söylüyor, iki RF %5'inde. RF eğitim F1 0,957 / OOB 0,750 / gruplu test 0,661 → OOB satıra göre olduğu için bu veride şişik (1.5 bölme sızıntısıyla aynı); 2.3'te kullanılabilir.
 - Yorum hücresi henüz yazılmadı: Barış yazacak (eğitim–test farkının ağaç vs. RF'de farklı okunması; makro F1 gerekçesi).
 
 ## 2.5 hedef tartışması (2026-11-01, `calisma/baris/kodlar/b2_5_hedef_tartismasi.py`)

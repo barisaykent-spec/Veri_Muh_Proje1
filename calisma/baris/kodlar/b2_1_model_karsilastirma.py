@@ -64,3 +64,11 @@ ax.invert_yaxis()
 ax.set(xlabel="Makro F1 (gruplu tekrarlı ÇD, 25 bölme)", title="2.1 · Model karşılaştırması")
 plt.tight_layout(); plt.show()
 print("Grafik: kutu = çeyrekler arası aralık, çizgi = medyan, üçgen = ortalama; noktalı çizgi rastgele tahmin düzeyi.")
+
+# Eşli karşılaştırma: aynı 25 bölmede iki modelin farkı (bölmeler ortak olduğu için farka bakmak daha adil)
+for a_, b_ in [("Rastgele orman · 300 ağaç", "Lojistik regresyon (1.6)"),
+               ("Gradyan artırma (HistGB)", "Rastgele orman · 300 ağaç"),
+               ("k-NN · k = 15 (ölçekli)", "Karar ağacı · yaprak ≥ 20")]:
+    d = skorlar_21[a_] - skorlar_21[b_]
+    print(f"{a_} − {b_}: {d.mean():+.3f} ± {d.std():.3f} (25 bölmenin {int((d > 0).sum())}'inde önde)")
+print("Not: bölmeler aynı veriden üretildiği için bu 25 fark bağımsız değil; anlamlılık testi 2.4'te (gruplu 5×2 ÇD).")
