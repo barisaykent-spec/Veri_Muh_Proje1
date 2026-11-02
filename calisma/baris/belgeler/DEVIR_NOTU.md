@@ -90,6 +90,12 @@ Gruplu 5×2 ÇD (`StratifiedGroupKFold(2)` × 5, tohum 42–46), McNemar için g
 - HistGB − RF: 5×2 t'nin payı keyfi seçilen ilk fark; 10 seçimden yalnız 1'inde p < 0,05 (p 0,038–0,76). Saf t ve ilan bazlı McNemar ev sahibi bağımlılığını yok saydığı için "anlamlı" diyor; düzeltilmiş/kümelenmiş testler demiyor.
 - Duyarlılık hücresi (2.4 devam) ilk sonuçlar görüldükten sonra eklendi → raporda post hoc olarak belirtilmeli.
 
+## 2.5 aktarım (2026-11-02, sklearn 1.9.1; defterde 2.5 hücresi + `kodlar/b2_5_aktarim.py`, `belgeler/p1_protokol.json`)
+- **Seçilen model: RF** (300 ağaç, yaprak ≥ 2, ayarsız) — Barış kararı. Gerekçe: HistGB − RF anlamlı değil (2.4); RF ayarsız kararlı, açıklanabilirlik için uygun.
+- Çıktılar (Colab'da defter üretir, GitHub'a konmaz): `p1_hat.joblib` (37 MB, bütün veride eğitilmiş Pipeline), `p1_temiz_veri.csv` (24.553 × 36: id, host_id, fiyat, minimum_nights, ilce_ham, 24 girdi, fiyat_dilimi, y, **p1_oof_*** kat dışı tahmin/olasılıklar).
+- Kat dışı makro F1 (CV_GRUP ilk tur) 0,664; bütün veride eğitim içi 0,955 (raporlanmaz). Geri okuma kontrolü %100.
+- Proje 2 uyarısı: hata/alt grup analizleri `p1_oof_*` ile yapılmalı. Ön bakış: Shared room 0,58 · Entire 0,66 · Private 0,69 · Hotel 0,72 doğruluk; ≥100 gece 0,67 / <100 gece 0,66.
+
 ## 2.5 hedef tartışması (2026-11-01, `calisma/baris/kodlar/b2_5_hedef_tartismasi.py`)
 Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü olabilir mi?" Ortak hat + LR, `CV_GRUP[:5]`.
 - Hata yapısı: doğru %62,9 · komşu sınıf hatası %31,9 · uç hata (ucuz↔pahalı) %5,2.
@@ -101,5 +107,6 @@ Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü ola
 - Makale: Dietterich (1998), Neural Computation 10(7) 1895–1923. Özet verildi: 5 test; öneri 5×2 ÇD t-testi (10 kez çalıştırılabiliyorsa) ya da McNemar (bir kez). Türkçesi yok.
 - 6. hafta (karar ağacı, NB, k-NN, ölçütler, bölme) Barış'a çalıştırılıyor; 7. hafta: RF, GB, iç içe ÇD, istatistiksel test.
 - 2.1 iskeleti Kübra'nın fonksiyonları üzerine kurulacak: Dummy, karar ağacı, k-NN (ölçekli), RF, gradyan artırma; `CV_GRUP`; ort ± std + kutu grafiği.
+- ✅ 2.1–2.5 kodları tamam (2026-11-02). Sırada: Bölüm 2 yorumları (en sonda), sonra Bölüm 3 / Ek paketler.
 - 2.4'te 5×2 ÇD **gruplu** yapılmalı (`StratifiedGroupKFold(n_splits=2)` × 5); McNemar için gruplu holdout.
 - **Yorum hücreleri en sona bırakıldı (Barış kararı, 2026-11-02).** Önce 2.1–2.5 kodları, sonra bütün yorumlar.

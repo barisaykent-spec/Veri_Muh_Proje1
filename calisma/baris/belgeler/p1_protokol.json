@@ -1,0 +1,89 @@
+{
+  "veri": {
+    "kaynak": "https://data.insideairbnb.com/turkey/marmara/istanbul/2026-09-25/data/listings.csv.gz",
+    "anlik_goruntu": "2026-09-25",
+    "ilan": 24553,
+    "ev_sahibi": 8550,
+    "kapsam": "hepsi",
+    "senaryo": "mevcut_ilan"
+  },
+  "hedef": {
+    "sinirlar_TL": [
+      2750,
+      5100
+    ],
+    "siniflar": [
+      "ucuz",
+      "orta",
+      "pahalı"
+    ],
+    "kodlar": {
+      "ucuz": 0,
+      "orta": 1,
+      "pahalı": 2
+    },
+    "aralik": "sol kapalı: [alt, üst)"
+  },
+  "oznitelikler": {
+    "sayisal": [
+      "kapasite",
+      "yatak_odasi",
+      "yatak",
+      "banyo_sayisi",
+      "enlem",
+      "boylam",
+      "log_min_gece",
+      "olanak_sayisi",
+      "log_aciklama_uzunlugu",
+      "ev_sahipligi_yil",
+      "log_ev_sahibi_ilan",
+      "log_yorum_sayisi",
+      "aylik_yorum",
+      "puan_genel",
+      "puan_konum",
+      "puan_temizlik"
+    ],
+    "kategorik": [
+      "oda_tipi",
+      "ilce",
+      "banyo_tipi",
+      "lisans_durumu",
+      "superhost",
+      "kimlik_dogrulandi",
+      "profil_fotografi"
+    ],
+    "yuksek_kardinalite": "mulk_tipi",
+    "on_isleme": "medyan doldurma + add_indicator + StandardScaler; bire-bir kodlama; mulk_tipi nadir (<30) birleşik"
+  },
+  "model": {
+    "ad": "Rastgele orman · 300 ağaç",
+    "parametreler": {
+      "max_features": "sqrt",
+      "min_samples_leaf": 2,
+      "n_estimators": 300,
+      "random_state": 42
+    }
+  },
+  "degerlendirme": {
+    "bolme": "StratifiedGroupKFold(groups=host_id), 5 kat × 5 tekrar, tohum 42–46 (CV_GRUP)",
+    "olcut": "f1_macro (ikincil: balanced_accuracy)",
+    "makro_F1_ort": 0.6653,
+    "makro_F1_std": 0.0158,
+    "dengeli_dogruluk_ort": 0.665,
+    "baseline_stratified": 0.3349,
+    "oof_makro_F1_ilk_tur": 0.6637
+  },
+  "surumler": {
+    "python": "3.13.18",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.0.5",
+    "numpy": "2.5.3"
+  },
+  "uyarilar": [
+    "Hata analizleri p1_oof_* sütunlarıyla yapılmalı; p1_hat.joblib'in eğitim ilanlarına tahmini ezber içerir.",
+    "Yeni bölmelerde host_id gruplaması korunmalı (1.5: satıra göre bölme ağaç/ormanda +0,08–0,10 şişirir).",
+    "Kök ayrım 'en az konaklama ≤ 20 gece' (2.2): 100 gecelik teklifler ayrı bir alt grup olarak incelenmeli.",
+    "HistGB − RF farkı anlamlı değil (2.4); model seçimi skora dayanmıyor.",
+    "CV_GRUP bölmeleri scikit-learn sürümüne bağlı; 1.9.1 dışında sayılar ~0,005 oynayabilir."
+  ]
+}
