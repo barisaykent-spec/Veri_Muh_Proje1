@@ -107,6 +107,6 @@ Barış'ın sorusu: "Keyfi sınırlarla üretilen etiket başarı ölçütü ola
 - Makale: Dietterich (1998), Neural Computation 10(7) 1895–1923. Özet verildi: 5 test; öneri 5×2 ÇD t-testi (10 kez çalıştırılabiliyorsa) ya da McNemar (bir kez). Türkçesi yok.
 - 6. hafta (karar ağacı, NB, k-NN, ölçütler, bölme) Barış'a çalıştırılıyor; 7. hafta: RF, GB, iç içe ÇD, istatistiksel test.
 - 2.1 iskeleti Kübra'nın fonksiyonları üzerine kurulacak: Dummy, karar ağacı, k-NN (ölçekli), RF, gradyan artırma; `CV_GRUP`; ort ± std + kutu grafiği.
-- ✅ 2.1–2.5 kodları tamam (2026-11-02). Sırada: Bölüm 2 yorumları (en sonda), sonra Bölüm 3 / Ek paketler.
+- ✅ 2.1–2.5 kodları ve yorumları + Dietterich okuma notu tamam (2026-11-05). Barış Bölüm 3, Ek paket 1 ve Ek paket 2'den sorumlu değil (Barış beyanı).
 - 2.4'te 5×2 ÇD **gruplu** yapılmalı (`StratifiedGroupKFold(n_splits=2)` × 5); McNemar için gruplu holdout.
 - **Yorum hücreleri en sona bırakıldı (Barış kararı, 2026-11-02).** Önce 2.1–2.5 kodları, sonra bütün yorumlar.
